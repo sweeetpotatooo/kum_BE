@@ -1,25 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+require('dotenv').config(); // .env 파일의 환경 변수를 로드합니다.
+const port = process.env.PORT;
 const indexRouter = require('./src/routes/index');
 const userRouter = require('./src/routes/user');
 
-// MySQL 데이터베이스 연결 설정
-const mysql = require('mysql2');
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'mydatabase'
-});
-
-db.connect(err => {
-  if (err) {
-    console.error('Database connection failed:', err.stack);
-    return;
-  }
-  console.log('Connected to database.');
-});
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
@@ -27,3 +12,5 @@ app.use('/user', userRouter);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+module.exports = db.promise(); // 프로미스 기반 메서드를 사용하기 위해 db를 모듈로 내보냅니다.
